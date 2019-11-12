@@ -9,6 +9,10 @@ react-instant
 [![License](https://img.shields.io/npm/l/react-instant.svg)](https://github.com/DRFR0ST/react-instant/blob/master/package.json)
 
 <!-- toc -->
+# Features
+🤖 - Automated setup
+✨ - Less useless dirt
+
 # Usage
 Setup a preview of a selected React application.
 ```react-instant <GIT_URL>```

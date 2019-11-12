@@ -17,7 +17,7 @@ class ReactInstant extends Command {
   public async cloneRepo(url: string) {
     const tmpDir = `${tempDirectory}/react-instant-${uuid()}`;
 
-    this.log(`Cloning ${url} into ${tmpDir}`);
+    this.log(`Cloning ${url}...`);
     await exec(`git clone ${url} ${tmpDir}`);
     return tmpDir;
   }
