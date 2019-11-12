@@ -41,7 +41,7 @@ class ReactInstant extends Command {
     const { args, flags } = this.parse(ReactInstant);
 
     if (!args.gir_url) { throw new Error("No git url provided"); }
-    this.log("react-instant v1.0.0\n");
+    this.log("react-instant v1.0.1\n");
 
     const tmpDir = await this.cloneRepo(args.gir_url);
     await this.installDeps(tmpDir);
