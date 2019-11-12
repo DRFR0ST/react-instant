@@ -1,7 +1,7 @@
 react-instant
 =============
 
- Instantly run a preview of a React application
+ Instantly run a React application localy
 
 [![oclif](https://img.shields.io/badge/cli-oclif-brightgreen.svg)](https://oclif.io)
 [![Version](https://img.shields.io/npm/v/react-instant.svg)](https://npmjs.org/package/react-instant)
@@ -12,7 +12,7 @@ react-instant
 # Features
 🤖 - Automated setup
 
-✨ - Less useless dirt
+✨ - Less useless dirt on your drive
 
 # Install
 #### npm
