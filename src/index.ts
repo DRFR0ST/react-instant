@@ -33,7 +33,8 @@ class ReactInstant extends Command {
   }
 
   public async serveRepo(tmpDir: string, port: number) {
-    this.log("Serving project on port " + port);
+    this.log("Serving project on port " + port + "\n");
+    this.log(`Now you can preview the project under http://127.0.0.1:${port}`);
     await exec(`cd ${tmpDir} && serve -s build -l ${port}`);
   }
 
