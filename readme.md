@@ -11,6 +11,7 @@ react-instant
 <!-- toc -->
 # Features
 🤖 - Automated setup
+
 ✨ - Less useless dirt
 
 # Install
