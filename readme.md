@@ -10,7 +10,9 @@ react-instant
 
 <!-- toc -->
 # Install
+#### npm
 `npm install -g react-instant`
+#### yarn
 `yarn global add react-instant`
 
 # Usage
