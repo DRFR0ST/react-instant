@@ -13,6 +13,12 @@ react-instant
 🤖 - Automated setup
 ✨ - Less useless dirt
 
+# Install
+#### npm
+`npm install -g react-instant`
+#### yarn
+`yarn global add react-instant`
+
 # Usage
 Setup a preview of a selected React application.
 ```react-instant <GIT_URL>```
