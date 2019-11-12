@@ -1,57 +1,28 @@
-# node-cli-boilerplate
+react-instant
+=============
 
-> Boilerplate to kickstart creating a Node.js command-line tool
+ Instantly run a preview of a React application
 
-This is what I use for [my own command-line tools](https://www.npmjs.com/~sindresorhus).
+[![oclif](https://img.shields.io/badge/cli-oclif-brightgreen.svg)](https://oclif.io)
+[![Version](https://img.shields.io/npm/v/react-instant.svg)](https://npmjs.org/package/react-instant)
+[![Downloads/week](https://img.shields.io/npm/dw/react-instant.svg)](https://npmjs.org/package/react-instant)
+[![License](https://img.shields.io/npm/l/react-instant.svg)](https://github.com/DRFR0ST/react-instant/blob/master/package.json)
 
-Also check out [`node-module-boilerplate`](https://github.com/sindresorhus/node-module-boilerplate).
+<!-- toc -->
+# Usage
+Setup a preview of a selected React application.
+```react-instant <GIT_URL>```
 
-## Getting started
+eg.
+`react-instant https://github.com/DRFR0ST/karutek.git`
 
-**Click the "Use this template" button.**
+after the setup you can preview the project in your browser under `127.0.0.1:5000`
+<!-- usage -->
+# Flags
+### port (-p)
+Override default port.
+`react-instant https://github.com/DRFR0ST/karutek.git -p 5050`
 
-Alternatively, create a new directory and then run:
-
-```
-$ curl -fsSL https://github.com/sindresorhus/node-cli-boilerplate/archive/master.tar.gz | tar -xz --strip-components=1
-```
-
-There's also a [Yeoman generator](https://github.com/sindresorhus/generator-nm).
-
-
----
-
-**Remove everything from here and above**
-
----
-
-
-# unicorn-fun-cli [![Build Status](https://travis-ci.org/YOUR-GITHUB-USERNAME/unicorn-fun-cli.svg?branch=master)](https://travis-ci.org/YOUR-GITHUB-USERNAME/unicorn-fun-cli)
-
-> My awesome command-line tool
-
-
-## Install
-
-```
-$ npm install --global unicorn-fun-cli
-```
-
-
-## Usage
-
-```
-$ unicorn-fun --help
-
-  Usage
-    $ unicorn-fun [input]
-
-  Options
-    --postfix  Lorem ipsum  [Default: rainbows]
-
-  Examples
-    $ cli-name
-    unicorns & rainbows
-    $ cli-name ponies
-    ponies & rainbows
-```
+### version (-v)
+Displays the current version.
+`react-instant -v`

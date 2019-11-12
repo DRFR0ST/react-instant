@@ -1,39 +1,56 @@
 {
-	"name": "unicorn-fun-cli",
-	"version": "0.0.0",
-	"description": "My awesome command-line tool",
-	"license": "MIT",
-	"repository": "YOUR-GITHUB-USERNAME/unicorn-fun-cli",
-	"author": {
-		"name": "YOUR NAME",
-		"email": "YOUR EMAIL",
-		"url": "YOUR WEBSITE"
-	},
-	"bin": {
-		"unicorn-fun": "cli.js"
-	},
-	"engines": {
-		"node": ">=8"
-	},
-	"scripts": {
-		"test": "xo && ava"
-	},
-	"files": [
-		"cli.js"
-	],
-	"keywords": [
-		"cli",
-		"cli-app",
-		"unicorn",
-		"fun"
-	],
-	"dependencies": {
-		"meow": "^5.0.0",
-		"unicorn-fun": "^0.0.0"
-	},
-	"devDependencies": {
-		"ava": "^2.1.0",
-		"execa": "^2.0.0",
-		"xo": "^0.24.0"
-	}
+  "name": "react-instant",
+  "description": "Instantly run a preview of a React application",
+  "version": "0.0.0",
+  "author": "Mike Eling @DRFR0ST",
+  "bin": {
+    "react-instant": "./bin/run"
+  },
+  "bugs": "https://github.com/DRFR0ST/react-instant/issues",
+  "dependencies": {
+    "@oclif/command": "^1",
+    "@oclif/config": "^1",
+    "@oclif/plugin-help": "^2",
+    "@types/uuid": "^3.4.6",
+    "temp-dir": "^2.0.0",
+    "tslib": "^1",
+    "uuid": "^3.3.3"
+  },
+  "devDependencies": {
+    "@oclif/test": "^1",
+    "@oclif/tslint": "^3",
+    "@types/chai": "^4",
+    "@types/mocha": "^5",
+    "@types/node": "^10",
+    "chai": "^4",
+    "mocha": "^5",
+    "nyc": "^14",
+    "ts-node": "^8",
+    "tslint": "^5",
+    "tslint-config-prettier": "^1.18.0",
+    "typescript": "^3.3"
+  },
+  "engines": {
+    "node": ">=8.0.0"
+  },
+  "files": [
+    "/bin",
+    "/lib"
+  ],
+  "homepage": "https://github.com/DRFR0ST/react-instant",
+  "keywords": [
+    "oclif"
+  ],
+  "license": "MIT",
+  "main": "lib/index.js",
+  "oclif": {
+    "bin": "react-instant"
+  },
+  "repository": "DRFR0ST/react-instant",
+  "scripts": {
+    "posttest": "tslint -p test -t stylish",
+    "prepack": "rm -rf lib && tsc -b",
+    "test": "nyc --extension .ts mocha --forbid-only \"test/**/*.test.ts\""
+  },
+  "types": "lib/index.d.ts"
 }
