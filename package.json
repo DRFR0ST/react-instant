@@ -1,7 +1,7 @@
 {
   "name": "react-instant",
   "description": "Instantly run a preview of a React application",
-  "version": "1.0.1",
+  "version": "1.1.0",
   "author": "Mike Eling @DRFR0ST",
   "bin": {
     "react-instant": "./bin/run"
@@ -11,7 +11,10 @@
     "@oclif/command": "^1",
     "@oclif/config": "^1",
     "@oclif/plugin-help": "^2",
+    "@types/command-exists": "^1.2.0",
     "@types/uuid": "^3.4.6",
+    "command-exists": "^1.2.8",
+    "open": "^7.0.0",
     "temp-dir": "^2.0.0",
     "tslib": "^1",
     "uuid": "^3.3.3"
