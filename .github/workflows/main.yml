@@ -21,8 +21,6 @@ jobs:
 
       - name: Install Package dependencies
         run: yarn install
-      - name: Build
-        run: yarn build
       - name: Publish
         uses: actions/npm@master
         env:
