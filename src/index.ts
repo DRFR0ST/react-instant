@@ -1,11 +1,12 @@
 import { Command, flags } from "@oclif/command";
-import {sync as commandExistsSync} from "command-exists"; 
+import { sync as commandExistsSync } from "command-exists";
 import * as opn from "open";
-import * as util from "util";
-import * as uuid from "uuid/v1";
-const pjson = require('../package.json');
-const exec = util.promisify(require("child_process").exec);
 import * as tempDirectory from "temp-dir";
+import * as util from "util";
+import { v1 as uuid } from "uuid";
+
+const pjson = require("../package.json");
+const exec = util.promisify(require("child_process").exec);
 
 class ReactInstant extends Command {
   public static description = "describe the command here";
@@ -47,17 +48,23 @@ class ReactInstant extends Command {
 
   public async installDeps(tmpDir: string) {
     this.log("Installing dependencies...");
-    this.verboseLog(await exec(`cd ${tmpDir} && ${this.prefersYarn ? "yarn" : "npm install"}`));
+    this.verboseLog(
+      await exec(`cd ${tmpDir} && ${this.prefersYarn ? "yarn" : "npm install"}`)
+    );
   }
 
   public async buildRepo(tmpDir: string) {
     this.log("Building project...");
-    this.verboseLog(await exec(`cd ${tmpDir} && ${this.prefersYarn ? "yarn" : "npm"} build`));
+    this.verboseLog(
+      await exec(`cd ${tmpDir} && ${this.prefersYarn ? "yarn" : "npm"} build`)
+    );
   }
 
   public async serveRepo(tmpDir: string, port: number) {
     this.log("Serving project on port " + port + "...\n");
-    this.log(`✔ Now you can preview the project under http://localhost:${port}/`);
+    this.log(
+      `Now you can preview the project under http://localhost:${port}/`
+    );
     await opn(`http://localhost:${port}/`, { url: true });
     this.verboseLog(await exec(`cd ${tmpDir} && serve -s build -l ${port}`));
   }
@@ -85,7 +92,7 @@ class ReactInstant extends Command {
       return;
     }
 
-    this.log("🗯 ", ...args);
+    this.log("-> ", ...args);
   }
 }
 

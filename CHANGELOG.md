@@ -2,6 +2,8 @@
 All notable changes to this project will be documented in this file.
 
 ## [Unreleased]
+### Remove
+- Incompatible emojis.
 
 ## [1.1.0] - 2019-11-14
 ### Added
