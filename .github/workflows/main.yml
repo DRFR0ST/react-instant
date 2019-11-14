@@ -1,0 +1,31 @@
+on:
+ push:
+   tags:
+     - 'v*'
+name: Publish Package
+jobs:
+  release:
+    name: Publish Package
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@master
+        with:
+          fetch-depth: 3
+
+      # Use this GitHub Action
+      - name: Check package version
+        uses: technote-space/package-version-check-action@v1
+        with:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: Install Package dependencies
+        run: yarn install
+      - name: Build
+        run: yarn build
+      - name: Publish
+        uses: actions/npm@master
+        env:
+          NPM_AUTH_TOKEN: ${{ secrets.NPM_AUTH_TOKEN }}
+        with:
+          args: publish
