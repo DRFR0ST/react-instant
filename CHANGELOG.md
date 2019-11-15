@@ -3,6 +3,10 @@ All notable changes to this project will be documented in this file.
 
 ## [Unreleased]
 
+## [1.1.3] - 2019-11-17
+### Fixed
+- Critical typo.
+
 ## [1.1.2] - 2019-11-16
 ### Added
 - Save project permanently.
