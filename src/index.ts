@@ -78,7 +78,7 @@ class ReactInstant extends Command {
     this.verbose = flags.verbose;
     this.saveProjectPath = flags.save;
 
-    if (!args.gir_url) {
+    if (!args.git_url) {
       throw new Error("No git url provided");
     }
     this.log(`react-instant v${pjson.version}\n`);
