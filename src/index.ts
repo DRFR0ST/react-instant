@@ -12,13 +12,13 @@ class ReactInstant extends Command {
   public static description = "describe the command here";
 
   public static flags = {
-    port: flags.integer({ char: "p" }),
-    save: flags.string({ char: "s" }),
+    port: flags.integer({ char: "p", description: "Custom port." }),
+    save: flags.string({ char: "s", description: "Provide a url to save the project permanenty." }),
     verbose: flags.boolean(),
     version: flags.version({ char: "v" })
   };
 
-  public static args = [{ name: "gir_url" }];
+  public static args = [{ name: "git_url" }];
 
   public verbose = false;
   public prefersYarn = false;
