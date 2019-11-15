@@ -16,8 +16,10 @@ jobs:
         with:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
-      - name: Install Package dependencies
+      - name: Install package dependencies
         run: yarn install
+      - name: Build package
+        run: yarn prepack
       - name: Publish
         uses: actions/npm@master
         env:
