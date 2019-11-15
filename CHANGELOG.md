@@ -3,6 +3,10 @@ All notable changes to this project will be documented in this file.
 
 ## [Unreleased]
 
+## [1.1.2] - 2019-11-16
+### Added
+- Save project permanently.
+
 ## [1.1.1] - 2019-11-14
 ### Remove
 - Incompatible emojis.

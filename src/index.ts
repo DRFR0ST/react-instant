@@ -13,6 +13,7 @@ class ReactInstant extends Command {
 
   public static flags = {
     port: flags.integer({ char: "p" }),
+    save: flags.string({ char: "s" }),
     verbose: flags.boolean(),
     version: flags.version({ char: "v" })
   };
@@ -21,6 +22,7 @@ class ReactInstant extends Command {
 
   public verbose = false;
   public prefersYarn = false;
+  public saveProjectPath: string | undefined = undefined;
 
   public async checkDependencies() {
     if (commandExistsSync("yarn")) {
@@ -39,9 +41,12 @@ class ReactInstant extends Command {
   }
 
   public async cloneRepo(url: string) {
-    const tmpDir = `${tempDirectory}/react-instant-${uuid()}`;
+    const tmpDir =
+      this.saveProjectPath || `${tempDirectory}/react-instant-${uuid()}`;
 
-    this.log(`Cloning ${url}...`);
+    !this.verbose
+      ? this.log(`Cloning ${url}...`)
+      : this.verboseLog(`Cloning ${url} to ${tmpDir}...`);
     this.verboseLog(await exec(`git clone ${url} ${tmpDir}`));
     return tmpDir;
   }
@@ -62,9 +67,7 @@ class ReactInstant extends Command {
 
   public async serveRepo(tmpDir: string, port: number) {
     this.log("Serving project on port " + port + "...\n");
-    this.log(
-      `Now you can preview the project under http://localhost:${port}/`
-    );
+    this.log(`Now you can preview the project under http://localhost:${port}/`);
     await opn(`http://localhost:${port}/`, { url: true });
     this.verboseLog(await exec(`cd ${tmpDir} && serve -s build -l ${port}`));
   }
@@ -73,6 +76,7 @@ class ReactInstant extends Command {
     const { args, flags } = this.parse(ReactInstant);
 
     this.verbose = flags.verbose;
+    this.saveProjectPath = flags.save;
 
     if (!args.gir_url) {
       throw new Error("No git url provided");
