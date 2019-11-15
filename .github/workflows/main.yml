@@ -1,7 +1,4 @@
-on:
-  push:
-    tags-ignore:
-      - v1.* 
+on: push
 name: Publish Package
 jobs:
   release:
