@@ -2,6 +2,7 @@ import { Command, flags } from "@oclif/command";
 import { sync as commandExistsSync } from "command-exists";
 import * as opn from "open";
 import * as tempDirectory from "temp-dir";
+import * as urlParse from "url-parse";
 import * as util from "util";
 import { v1 as uuid } from "uuid";
 
@@ -15,12 +16,9 @@ class ReactInstant extends Command {
 
   public static flags = {
     port: flags.integer({ char: "p", description: "Custom port." }),
-    save: flags.string({
-      char: "s",
-      description: "Provide a url to save the project permanenty."
-    }),
+    save: flags.string({ char: "s", description: "Provide a url to save the project permanenty." }),
     verbose: flags.boolean(),
-    version: flags.version({ char: "v" })
+    version: flags.version({ char: "v" }),
   };
 
   public static args = [{ name: "git_url" }];
@@ -41,12 +39,10 @@ class ReactInstant extends Command {
     this.dir = flgs.save || `${tempDirectory}/react-instant-${uuid()}`;
     this.verboseLog(`Path was set to ${this.dir}`);
 
-    if (!args.git_url) {
-      throw new Error("No git url provided");
-    }
+    const git_url = this.parseUrl(args.git_url);
 
     await this.checkDependencies();
-    await this.cloneRepo(args.git_url);
+    await this.cloneRepo(git_url);
     await this.installDeps();
     await this.buildRepo();
     await this.serveRepo(flgs.port || 5000);
@@ -67,10 +63,7 @@ class ReactInstant extends Command {
     }
     // Check for serve
     if (!commandExistsSync("serve")) {
-      this.warn("serve not found, installing...");
-      await exec(
-        this.prefersYarn ? "yarn global add serve" : "npm install -g serve"
-      );
+      throw new Error("'serve' is not installed. Try npm install -g serve")
     }
   }
 
@@ -134,6 +127,27 @@ class ReactInstant extends Command {
     }
 
     this.log("-> ", ...args);
+  }
+
+  /**
+   * Parses git url.
+   * @param url Url to repository. eg. https://github.com/user/repo.git or user/repo
+   */
+  private parseUrl(url: string) {
+    if (!url) {
+      throw new Error("No git url provided");
+    }
+    this.verboseLog(url);
+    // tslint:disable-next-line: strict-type-predicates
+    if(urlParse(url, true).origin != "null") {
+      return url;
+    }
+
+    if(url.split("/").length === 2) {
+      return `https://github.com/${url}`;
+    }
+
+    throw new Error("Provided invalid git url.");
   }
 }
 
