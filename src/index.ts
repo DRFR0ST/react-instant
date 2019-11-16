@@ -39,10 +39,10 @@ class ReactInstant extends Command {
     this.dir = flgs.save || `${tempDirectory}/react-instant-${uuid()}`;
     this.verboseLog(`Path was set to ${this.dir}`);
 
-    const git_url = this.parseUrl(args.git_url);
+    const gitUrl = this.parseUrl(args.git_url);
 
     await this.checkDependencies();
-    await this.cloneRepo(git_url);
+    await this.cloneRepo(gitUrl);
     await this.installDeps();
     await this.buildRepo();
     await this.serveRepo(flgs.port || 5000);
