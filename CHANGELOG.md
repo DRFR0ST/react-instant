@@ -2,8 +2,16 @@
 All notable changes to this project will be documented in this file.
 
 ## [Unreleased]
+### Added
+- Shorthand for Github repositories.
 
-## [1.1.3] - 2019-11-17
+### Fixed
+- Undefined git url.
+
+### Removed
+- Auto install serve.
+
+## [1.1.3] - 2019-11-16
 ### Fixed
 - Critical typo.
 
