@@ -24,7 +24,8 @@ react-instant
 Setup a preview of a selected React application.
 ```react-instant <GIT_URL>```
 
-eg. `react-instant https://github.com/DRFR0ST/karutek.git`
+eg.
+`react-instant https://github.com/DRFR0ST/karutek.git`
 
 after the setup you can preview the project in your browser under `http://127.0.0.1:5000/`
 <!-- usage -->
@@ -38,6 +39,11 @@ Override default port.
 Displays the current version.
 
 ```react-instant -v```
+
+### save (-s)
+Save the project permanenty in a local directory.
+
+```react-instant Misieq01/notemaster -s ./notemaster/```
 
 ### verbose
 Verbose log output.

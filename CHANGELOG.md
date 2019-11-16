@@ -2,6 +2,8 @@
 All notable changes to this project will be documented in this file.
 
 ## [Unreleased]
+
+## [1.2.0] - 2019-11-16
 ### Added
 - Shorthand for Github repositories.
 
