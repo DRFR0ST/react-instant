@@ -57,6 +57,5 @@
     "prepack": "rm -rf lib && tsc -b",
     "test": "nyc --extension .ts mocha --forbid-only \"test/**/*.test.ts\""
   },
-  "types": "lib/index.d.ts",
-  "publishConfig": { "registry": "https://npm.pkg.github.com/" }
+  "types": "lib/index.d.ts"
 }
