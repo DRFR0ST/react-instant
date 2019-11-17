@@ -27,11 +27,18 @@ jobs:
           NPM_AUTH_TOKEN: ${{ secrets.NPM_AUTH_TOKEN }}
         with:
           args: publish
-      - name: Publish to gpr
+      - name: "npm/registry setup"
+        uses: actions/setup-node@v1
+        with:
+          node-version: 12
+          registry-url: https://npm.pkg.github.com/
+          scope: "@drfr0st"
+        env:
+          NODE_AUTH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+      - name: "publish package"
         run: |
           echo @drfr0st:registry=https://npm.pkg.github.com/ >> .npmrc
           npm publish
-        continue-on-error: true
         env:
           NODE_AUTH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         
