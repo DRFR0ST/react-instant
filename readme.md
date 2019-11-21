@@ -3,10 +3,11 @@ react-instant
 
  Instantly run a React application localy
 
-[![oclif](https://img.shields.io/badge/cli-oclif-brightgreen.svg)](https://oclif.io)
-[![Version](https://img.shields.io/npm/v/react-instant.svg)](https://npmjs.org/package/react-instant)
-[![Downloads/week](https://img.shields.io/npm/dw/react-instant.svg)](https://npmjs.org/package/react-instant)
-[![License](https://img.shields.io/npm/l/react-instant.svg)](https://github.com/DRFR0ST/react-instant/blob/master/package.json)
+[![Version](https://img.shields.io/npm/v/react-instant.svg?style=for-the-badge)](https://npmjs.org/package/react-instant)
+[![Downloads/week](https://img.shields.io/npm/dw/react-instant.svg?style=for-the-badge)](https://npmjs.org/package/react-instant)
+[![License](https://img.shields.io/npm/l/react-instant.svg?style=for-the-badge)](https://github.com/DRFR0ST/react-instant/blob/master/package.json)
+![GitHub Release Date](https://img.shields.io/github/release-date/DRFR0ST/react-instant?style=for-the-badge)
+[![npm bundle size](https://img.shields.io/bundlephobia/minzip/react-instant?style=for-the-badge)](https://npmjs.org/package/react-instant)
 
 <!-- toc -->
 # Features
