@@ -49,7 +49,7 @@ Save the project permanenty in a local directory.
 ### branch (-b)
 Switches branch after clone.
 
-```react-instant Misieq01/notemaster -b dev```
+```react-instant Misieq01/notemaster -b=dev```
 
 ### verbose
 Verbose log output.
