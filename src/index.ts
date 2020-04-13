@@ -19,6 +19,7 @@ class ReactInstant extends Command {
     save: flags.string({ char: "s", description: "Provide a url to save the project permanenty." }),
     verbose: flags.boolean(),
     version: flags.version({ char: "v" }),
+    branch: flags.string({ char: "b", description: "Specify git branch." })
   };
 
   public static args = [{ name: "git_url" }];
@@ -42,7 +43,7 @@ class ReactInstant extends Command {
     const gitUrl = this.parseUrl(args.git_url);
 
     await this.checkDependencies();
-    await this.cloneRepo(gitUrl);
+    await this.cloneRepo(gitUrl, flgs.branch);
     await this.installDeps();
     await this.buildRepo();
     await this.serveRepo(flgs.port || 5000);
@@ -71,12 +72,19 @@ class ReactInstant extends Command {
    * Clones git repository.
    * @param url URL to repository.
    */
-  private async cloneRepo(url: string) {
+  private async cloneRepo(url: string, branch?: string) {
     !this.verbose
       ? this.log(`Cloning ${url}...`)
       : this.verboseLog(`Cloning ${url} to ${this.dir}...`);
 
     this.verboseLog(await exec(`git clone ${url} ${this.dir}`));
+    this.verboseLog(await exec(`cd ${this.dir} && git fetch`));
+
+    if(branch) {
+      this.log(`Switching branch to ${branch}`)
+
+      this.verboseLog(await exec(`cd ${this.dir} && git checkout ${branch}`));
+    }    
   }
 
   /**
@@ -85,11 +93,16 @@ class ReactInstant extends Command {
   private async installDeps() {
     this.log("Installing dependencies...");
 
+    const waitTimeout = setTimeout(() => {
+      this.log("Still working... Please be patient.");
+    }, 1000*60*60*2);
+
     this.verboseLog(
       await exec(
         `cd ${this.dir} && ${this.prefersYarn ? "yarn" : "npm install"}`
       )
     );
+    clearTimeout(waitTimeout);
   }
 
   /**
@@ -119,7 +132,7 @@ class ReactInstant extends Command {
 
   /**
    * Prints verbose log.
-   * @param args Output texts.
+   * @param args Message.
    */
   private verboseLog(...args: any[]) {
     if (!this.verbose) {

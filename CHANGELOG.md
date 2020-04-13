@@ -3,6 +3,11 @@ All notable changes to this project will be documented in this file.
 
 ## [Unreleased]
 
+## [1.3.0] - 2020-04-13
+### Added
+- Git branch option.
+- Message when install takes long time.
+
 ## [1.2.0] - 2019-11-16
 ### Added
 - Shorthand for Github repositories.
