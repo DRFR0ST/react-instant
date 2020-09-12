@@ -30,6 +30,13 @@ class ReactInstant extends Command {
   private dir = "";
 
   /**
+   * Prefered package manager. (yarn or npm)
+   */
+  private get getPM() {
+    return this.prefersYarn ? "yarn" : "npm";
+  }
+
+  /**
    * Here it all begins...
    */
   public async run() {
@@ -100,7 +107,7 @@ class ReactInstant extends Command {
 
     this.verboseLog(
       await exec(
-        `cd ${this.dir} && ${this.prefersYarn ? "yarn" : "npm install"}`
+        `cd ${this.dir} && ${this.constructCommand({ npm: `install` })}`
       )
     );
     clearTimeout(waitTimeout);
@@ -113,7 +120,7 @@ class ReactInstant extends Command {
     this.log("Building project...");
 
     this.verboseLog(
-      await exec(`cd ${this.dir} && ${this.prefersYarn ? "yarn" : "npm run-script"} ${buildScript}`)
+      await exec(`cd ${this.dir} && ${this.constructCommand({ yarn: buildScript, npm: `run-script ${buildScript}` })}`)
     );
   }
 
@@ -162,6 +169,23 @@ class ReactInstant extends Command {
     }
 
     throw new Error("Provided invalid git url.");
+  }
+
+  /**
+   * Constructs an command for prefered package manager.
+   * @param args String args for both yarn and npm or an object with separated args for each package manager.
+   */
+  private constructCommand(args: string | { yarn?: string, npm?: string }) {
+    const pm = this.getPM;
+
+    if (typeof args === "string")
+      return `${pm} ${args}`;
+    else
+      if (pm === "yarn") {
+        return `yarn ${args.yarn ?? ""}`
+      } else {
+        return `npm ${args.npm ?? ""}`;
+      }
   }
 }
 
