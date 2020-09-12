@@ -2,6 +2,8 @@
 All notable changes to this project will be documented in this file.
 
 ## [Unreleased]
+### Added 
+- New build script flag.
 
 ## [1.3.0] - 2020-04-13
 ### Added
