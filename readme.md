@@ -56,6 +56,11 @@ Verbose log output.
 
 ```react-instant --verbose```
 
+### buildScript 
+Script name executed on build.
+
+```react-instant DRFR0ST/marko-eling-portfolio --buildScript compose```
+
 # Requirements
 The programs listed below are required to run this app correctly.
 

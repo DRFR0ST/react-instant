@@ -19,7 +19,8 @@ class ReactInstant extends Command {
     save: flags.string({ char: "s", description: "Provide a url to save the project permanenty." }),
     verbose: flags.boolean(),
     version: flags.version({ char: "v" }),
-    branch: flags.string({ char: "b", description: "Specify git branch." })
+    branch: flags.string({ char: "b", description: "Specify git branch." }),
+    buildScript: flags.string({ description: "Script name executed on build." })
   };
 
   public static args = [{ name: "git_url" }];
@@ -45,7 +46,7 @@ class ReactInstant extends Command {
     await this.checkDependencies();
     await this.cloneRepo(gitUrl, flgs.branch);
     await this.installDeps();
-    await this.buildRepo();
+    await this.buildRepo(flgs.buildScript ?? "build");
     await this.serveRepo(flgs.port || 5000);
   }
 
@@ -108,11 +109,11 @@ class ReactInstant extends Command {
   /**
    * Builds project.
    */
-  private async buildRepo() {
+  private async buildRepo(buildScript: string) {
     this.log("Building project...");
 
     this.verboseLog(
-      await exec(`cd ${this.dir} && ${this.prefersYarn ? "yarn" : "npm"} build`)
+      await exec(`cd ${this.dir} && ${this.prefersYarn ? "yarn" : "npm run-script"} ${buildScript}`)
     );
   }
 
