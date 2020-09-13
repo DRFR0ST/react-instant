@@ -11,7 +11,7 @@ react-instant
 
 <!-- toc -->
 # Features
-🤖 - Automated setup *(runs all the required commands for you)*
+🤖 - Automated setup *(runs all the boring commands for you)*
 
 ✨ - Less useless dirt on your drive *(saves the project temporarily)*
 
