@@ -2,6 +2,11 @@
 All notable changes to this project will be documented in this file.
 
 ## [Unreleased]
+### Added
+- envPath flag for providing an .env file to the project.
+
+### Changed
+- Command line will now display emojis and colors.
 
 ## [1.4.0] - 2020-09-14
 ### Added 
