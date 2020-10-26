@@ -21,6 +21,8 @@ class ReactInstant extends Command {
     version: flags.version({ char: "v" }),
     branch: flags.string({ char: "b", description: "Specify git branch." }),
     buildScript: flags.string({ description: "Script name executed on build." })
+    buildScript: flags.string({ description: "Script name executed on build." }),
+    envPath: flags.string({ description: "Path to .env file." })
   };
 
   public static args = [{ name: "git_url" }];
@@ -28,6 +30,7 @@ class ReactInstant extends Command {
   private verbose = false;
   private prefersYarn = false;
   private dir = "";
+  private platform = process.platform;
 
   /**
    * Prefered package manager. (yarn or npm)
@@ -52,6 +55,7 @@ class ReactInstant extends Command {
 
     await this.checkDependencies();
     await this.cloneRepo(gitUrl, flgs.branch);
+    await this.copyFiles(flgs.envPath);
     await this.installDeps();
     await this.buildRepo(flgs.buildScript ?? "build");
     await this.serveRepo(flgs.port || 5000);
@@ -93,6 +97,24 @@ class ReactInstant extends Command {
 
       this.verboseLog(await exec(`cd ${this.dir} && git checkout ${branch}`));
     }    
+
+  /**
+   * Copies sideloaded files.
+   * @param envPath Path to .env file.
+   */
+  private async copyFiles(envPath?: string) {
+    if (envPath === undefined /*|| ...*/) {
+      return;
+    }
+    this.log(`Copying additional files.`);
+
+    if (envPath) {
+      this.verboseLog("envPath = " + envPath)
+
+      const command = this.platform === "win32" ? "xcopy" : "cp";
+      this.verboseLog(await exec(`${command} "${envPath}" "${this.dir}"`));
+      this.log(`Copied .env file.`)
+    }
   }
 
   /**
