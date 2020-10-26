@@ -55,9 +55,12 @@ class ReactInstant extends Command {
 
     const gitUrl = this.parseUrl(args.git_url);
 
+    // Resolve the env path.
+    flgs.envPath = flgs.envPath ? path.resolve(flgs.envPath || "") : undefined;
+
     await this.checkDependencies();
     await this.cloneRepo(gitUrl, flgs.branch);
-    await this.copyFiles(path.resolve(flgs.envPath || ""));
+    await this.copyFiles(flgs.envPath);
     await this.installDeps();
     await this.buildRepo(flgs.buildScript ?? "build");
     await this.serveRepo(flgs.port || 5000);
