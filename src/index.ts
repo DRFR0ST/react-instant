@@ -57,7 +57,7 @@ class ReactInstant extends Command {
 
     await this.checkDependencies();
     await this.cloneRepo(gitUrl, flgs.branch);
-    await this.copyFiles(flgs.envPath);
+    await this.copyFiles(path.resolve(flgs.envPath || ""));
     await this.installDeps();
     await this.buildRepo(flgs.buildScript ?? "build");
     await this.serveRepo(flgs.port || 5000);
