@@ -5,6 +5,8 @@ import * as tempDirectory from "temp-dir";
 import * as urlParse from "url-parse";
 import * as util from "util";
 import { v1 as uuid } from "uuid";
+import * as chalk from "chalk";
+import * as emoji from "node-emoji";
 
 // tslint:disable-next-line: no-var-requires
 const pjson = require("../package.json");
@@ -16,11 +18,10 @@ class ReactInstant extends Command {
 
   public static flags = {
     port: flags.integer({ char: "p", description: "Custom port." }),
-    save: flags.string({ char: "s", description: "Provide a url to save the project permanenty." }),
+    save: flags.string({ char: "s", description: "Provide an url to save the project permanenty." }),
     verbose: flags.boolean(),
     version: flags.version({ char: "v" }),
     branch: flags.string({ char: "b", description: "Specify git branch." }),
-    buildScript: flags.string({ description: "Script name executed on build." })
     buildScript: flags.string({ description: "Script name executed on build." }),
     envPath: flags.string({ description: "Path to .env file." })
   };
@@ -86,17 +87,18 @@ class ReactInstant extends Command {
    */
   private async cloneRepo(url: string, branch?: string) {
     !this.verbose
-      ? this.log(`Cloning ${url}...`)
+      ? this.log(`${emoji.get('floppy_disk')} Cloning ${chalk.underline(url)}...`)
       : this.verboseLog(`Cloning ${url} to ${this.dir}...`);
 
     this.verboseLog(await exec(`git clone ${url} ${this.dir}`));
     this.verboseLog(await exec(`cd ${this.dir} && git fetch`));
 
     if(branch) {
-      this.log(`Switching branch to ${branch}`)
+      this.log(`${emoji.get("twisted_rightwards_arrows")} Switching branch to ${chalk.underline(branch)}`)
 
       this.verboseLog(await exec(`cd ${this.dir} && git checkout ${branch}`));
-    }    
+    }
+  }
 
   /**
    * Copies sideloaded files.
@@ -106,14 +108,14 @@ class ReactInstant extends Command {
     if (envPath === undefined /*|| ...*/) {
       return;
     }
-    this.log(`Copying additional files.`);
+    this.log(`${emoji.get("clipboard")} Copying additional files.`);
 
     if (envPath) {
       this.verboseLog("envPath = " + envPath)
 
       const command = this.platform === "win32" ? "xcopy" : "cp";
       this.verboseLog(await exec(`${command} "${envPath}" "${this.dir}"`));
-      this.log(`Copied .env file.`)
+      this.log(`${emoji.get("white_check_mark")} Copied ${chalk.underline(".env")} file.`)
     }
   }
 
@@ -121,10 +123,10 @@ class ReactInstant extends Command {
    * Installs project's dependencies.
    */
   private async installDeps() {
-    this.log("Installing dependencies...");
+    this.log(`${emoji.get("package")} Installing dependencies...`);
 
     const waitTimeout = setTimeout(() => {
-      this.log("Still working... Please be patient.");
+      this.log(emoji.get("construction") + " Still working... Please be patient.");
     }, 1000*60*60*2);
 
     this.verboseLog(
@@ -139,7 +141,7 @@ class ReactInstant extends Command {
    * Builds project.
    */
   private async buildRepo(buildScript: string) {
-    this.log("Building project...");
+    this.log(`${emoji.get("building_construction")} Building project...`);
 
     this.verboseLog(
       await exec(`cd ${this.dir} && ${this.constructCommand({ yarn: buildScript, npm: `run-script ${buildScript}` })}`)
@@ -151,8 +153,8 @@ class ReactInstant extends Command {
    * @param port Served port.
    */
   private async serveRepo(port: number) {
-    this.log("Serving project on port " + port + "...\n");
-    this.log(`Now you can preview the project under http://localhost:${port}/`);
+    this.log(emoji.get("tada") + "Serving project on port " + chalk.underline(port) + "...\n");
+    this.log(`Now you can preview this project under ${chalk.underline(`http://localhost:${port}/`)}`);
 
     // tslint:disable-next-line: no-http-string
     await opn(`http://localhost:${port}/`, { url: true });
@@ -169,7 +171,7 @@ class ReactInstant extends Command {
       return;
     }
 
-    this.log("-> ", ...args);
+    this.log(`${emoji.get("construction_worker")} `, ...args);
   }
 
   /**
@@ -178,7 +180,7 @@ class ReactInstant extends Command {
    */
   private parseUrl(url: string) {
     if (!url) {
-      throw new Error("No git url provided");
+      throw new Error(emoji.get("no_entry") + " No git url provided");
     }
     this.verboseLog(url);
     // tslint:disable-next-line: strict-type-predicates
@@ -190,7 +192,7 @@ class ReactInstant extends Command {
       return `https://github.com/${url}`;
     }
 
-    throw new Error("Provided invalid git url.");
+    throw new Error(emoji.get("no_entry") + " Provided invalid git url.");
   }
 
   /**
