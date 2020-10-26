@@ -4,6 +4,7 @@ import * as opn from "open";
 import * as tempDirectory from "temp-dir";
 import * as urlParse from "url-parse";
 import * as util from "util";
+import * as path from "path";
 import { v1 as uuid } from "uuid";
 import * as chalk from "chalk";
 import * as emoji from "node-emoji";
@@ -56,8 +57,8 @@ class ReactInstant extends Command {
 
     await this.checkDependencies();
     await this.cloneRepo(gitUrl, flgs.branch);
-    await this.installDeps();
     await this.copyFiles(flgs.envPath);
+    await this.installDeps();
     await this.buildRepo(flgs.buildScript ?? "build");
     await this.serveRepo(flgs.port || 5000);
   }
@@ -113,9 +114,19 @@ class ReactInstant extends Command {
     if (envPath) {
       this.verboseLog("envPath = " + envPath)
 
-      const command = this.platform === "win32" ? "xcopy /h" : "cp";
-      this.verboseLog(await exec(`${command} "${envPath}" "${this.dir}"`));
-      this.verboseLog(`${emoji.get("white_check_mark")} Copied ${chalk.underline(".env")} file.`)
+      if (this.platform === "win32") {
+        const cmdExec = await exec(`xcopy "${envPath}" "${this.dir}" /h`)
+        this.verboseLog(cmdExec);
+
+        // Throw an error if no file is copied.
+        if (cmdExec.stdout.includes("0 File(s) copied"))
+          throw new Error("Unable to copy .env file. Please make sure the path is correct.");
+
+      } else {
+        this.verboseLog(await exec(`cp "${envPath}" "${this.dir}"`));
+      }
+
+      this.verboseLog(`Copied ${chalk.underline(".env")} file.`)
     }
   }
 
@@ -131,7 +142,7 @@ class ReactInstant extends Command {
 
     this.verboseLog(
       await exec(
-        `cd ${this.dir} && ${this.constructCommand({ npm: `install` })}`
+        `cd ${this.dir} && ${this.constructPMCommand({ npm: `install` })}`
       )
     );
     clearTimeout(waitTimeout);
@@ -144,7 +155,7 @@ class ReactInstant extends Command {
     this.log(`${emoji.get("building_construction")} Building project...`);
 
     this.verboseLog(
-      await exec(`cd ${this.dir} && ${this.constructCommand({ yarn: buildScript, npm: `run-script ${buildScript}` })}`)
+      await exec(`cd ${this.dir} && ${this.constructPMCommand({ yarn: buildScript, npm: `run-script ${buildScript}` })}`)
     );
   }
 
@@ -199,7 +210,7 @@ class ReactInstant extends Command {
    * Constructs an command for prefered package manager.
    * @param args String args for both yarn and npm or an object with separated args for each package manager.
    */
-  private constructCommand(args: string | { yarn?: string, npm?: string }) {
+  private constructPMCommand(args: string | { yarn?: string, npm?: string }) {
     const pm = this.getPM;
 
     if (typeof args === "string")
