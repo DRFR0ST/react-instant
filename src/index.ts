@@ -56,8 +56,8 @@ class ReactInstant extends Command {
 
     await this.checkDependencies();
     await this.cloneRepo(gitUrl, flgs.branch);
-    await this.copyFiles(flgs.envPath);
     await this.installDeps();
+    await this.copyFiles(flgs.envPath);
     await this.buildRepo(flgs.buildScript ?? "build");
     await this.serveRepo(flgs.port || 5000);
   }
@@ -108,14 +108,14 @@ class ReactInstant extends Command {
     if (envPath === undefined /*|| ...*/) {
       return;
     }
-    this.log(`${emoji.get("clipboard")} Copying additional files.`);
+    this.log(`${emoji.get("clipboard")} Copying additional files...`);
 
     if (envPath) {
       this.verboseLog("envPath = " + envPath)
 
-      const command = this.platform === "win32" ? "xcopy" : "cp";
+      const command = this.platform === "win32" ? "xcopy /h" : "cp";
       this.verboseLog(await exec(`${command} "${envPath}" "${this.dir}"`));
-      this.log(`${emoji.get("white_check_mark")} Copied ${chalk.underline(".env")} file.`)
+      this.verboseLog(`${emoji.get("white_check_mark")} Copied ${chalk.underline(".env")} file.`)
     }
   }
 
@@ -153,7 +153,7 @@ class ReactInstant extends Command {
    * @param port Served port.
    */
   private async serveRepo(port: number) {
-    this.log(emoji.get("tada") + "Serving project on port " + chalk.underline(port) + "...\n");
+    this.log(emoji.get("rocket") + " Serving project on port " + chalk.underline(port) + "...\n");
     this.log(`Now you can preview this project under ${chalk.underline(`http://localhost:${port}/`)}`);
 
     // tslint:disable-next-line: no-http-string
@@ -171,7 +171,7 @@ class ReactInstant extends Command {
       return;
     }
 
-    this.log(`${emoji.get("construction_worker")} `, ...args);
+    this.log(`${emoji.get("point_right")} `, ...args);
   }
 
   /**
