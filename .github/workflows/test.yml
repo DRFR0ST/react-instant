@@ -9,6 +9,8 @@ jobs:
         uses: actions/checkout@master
         with:
           fetch-depth: 3
+      - name: Install dependencies
+        run: yarn global add serve
       - name: Install package dependencies
         run: yarn install
       - name: Build package
