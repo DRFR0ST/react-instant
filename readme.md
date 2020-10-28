@@ -6,6 +6,7 @@ react-instant
 [![Downloads/week](https://img.shields.io/npm/dw/react-instant.svg?style=for-the-badge)](https://npmjs.org/package/react-instant)
 [![License](https://img.shields.io/npm/l/react-instant.svg?style=for-the-badge)](https://github.com/DRFR0ST/react-instant/blob/master/package.json)
 [![npm bundle size](https://img.shields.io/bundlephobia/minzip/react-instant?style=for-the-badge)](https://npmjs.org/package/react-instant)
+[![donate](https://img.shields.io/badge/paypal-donate-ff69b4?style=for-the-badge&logo=paypal)](https://www.paypal.com/paypalme/drfrost420/4,20)
 
 <!-- toc -->
 # Features
