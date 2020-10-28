@@ -1,0 +1,14 @@
+on: push
+name: Test Package
+jobs:
+  test:
+    name: Test Package
+    runs-on: ubuntu-latest
+    steps:
+      - name: Install package dependencies
+        run: yarn install
+      - name: Build package
+        run: yarn prepack
+      - name: Test package
+        run: yarn test
+      
