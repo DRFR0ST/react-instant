@@ -1,22 +1,31 @@
-import {expect, test} from '@oclif/test'
+// @ts-ignore
+const { expect, test } = require('@oclif/test');
 
-import cmd = require('../src')
+const cmd = require('../lib');
 
 /** Coming soon */
 describe('react-instant', () => {
-/*
   test
     .stdout()
-    .do(() => cmd.run([]))
-    .it('runs hello', ctx => {
-      expect(ctx.stdout).to.contain('hello world')
+    .do(async () => await cmd.run(['https://github.com/DRFR0ST/physiomedica-website.git']))
+    .it('with gir url.', ctx => {
+      expect(ctx.stdout).to.not.be.empty;
+      expect(ctx.stderr).to.be.empty;
     })
 
   test
     .stdout()
-    .do(() => cmd.run(['--name', 'jeff']))
-    .it('runs hello --name jeff', ctx => {
-      expect(ctx.stdout).to.contain('hello jeff')
+    .do(async () => await cmd.run(['DRFR0ST/physiomedica-website']))
+    .it('with GitHub shorthand.', ctx => {
+      expect(ctx.stdout).to.not.be.empty;
+      expect(ctx.stderr).to.be.empty;
     })
-*/
+
+  test
+    .stdout()
+    .do(async () => await cmd.run(['DRFR0ST/marko-eling-portfolio --buildScript compose']))
+    .it('with buildScript flag.', ctx => {
+      expect(ctx.stdout).to.not.be.empty;
+      expect(ctx.stderr).to.be.empty;
+    })
 })
