@@ -130,11 +130,11 @@ class ReactInstant extends Command {
         const cmdExec = await exec(`xcopy "${envPath}" "${this.dir}" /h`)
         this.verboseLog(cmdExec);
         try {
-          const cmdTestExec = await exec(`type "${this.dir}\\.env"`)
+          const cmdTestExec = await exec(`type "${path.resolve(this.dir + "\\.env")}"`)
           this.verboseLog(cmdTestExec);
         } catch (err) {
           this.verboseLog(err.message);
-          throw new Error("Unable to copy .env file. Please make sure the path is correct.");
+          throw new Error("There was an error while copying .env file.");
         }
 
         // Throw an error if no file is copied.
@@ -145,13 +145,13 @@ class ReactInstant extends Command {
         const cmdExec = await exec(`cp "${envPath}" "${this.dir}/.env"`);
         this.verboseLog(cmdExec);
         try {
-          const cmdTestExec = await exec(`type "${this.dir}\\.env"`)
+          const cmdTestExec = await exec(`test -f "${path.resolve(this.dir + "/.env")}" && echo "ok."`)
           this.verboseLog(cmdTestExec);
-          if ((cmdExec.stdout.includes("No such file or directory") || cmdExec.stderr.includes("No such file or directory")))
+          if ((!cmdExec.stdout.includes("ok.")))
             throw new Error("Unable to copy .env file. Please make sure the path is correct.");
         } catch (err) {
           this.verboseLog(err.message);
-          throw new Error("Unable to copy .env file. Please make sure the path is correct.");
+          throw new Error("There was an error while copying .env file.");
         }
       }
 
