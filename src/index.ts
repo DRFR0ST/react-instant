@@ -133,6 +133,7 @@ class ReactInstant extends Command {
           const cmdTestExec = await exec(`type "${this.dir}\\.env"`)
           this.verboseLog(cmdTestExec);
         } catch (err) {
+          this.verboseLog(err.message);
           throw new Error("Unable to copy .env file. Please make sure the path is correct.");
         }
 
@@ -149,6 +150,7 @@ class ReactInstant extends Command {
           if ((cmdExec.stdout.includes("No such file or directory") || cmdExec.stderr.includes("No such file or directory")))
             throw new Error("Unable to copy .env file. Please make sure the path is correct.");
         } catch (err) {
+          this.verboseLog(err.message);
           throw new Error("Unable to copy .env file. Please make sure the path is correct.");
         }
       }
