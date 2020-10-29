@@ -3,5 +3,11 @@
     "@oclif/tslint",
     "tslint:latest",
     "tslint-config-prettier"
-  ]
+  ],
+  "rules": {
+    "ordered-imports": true,
+    "no-unused-expression": false,
+    "curly": false,
+    "no-http-string": false
+  }
 }
