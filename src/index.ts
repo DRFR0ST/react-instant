@@ -115,6 +115,7 @@ class ReactInstant extends Command {
   /**
    * Copies sideloaded files.
    * @param envPath Path to .env file.
+   * TODO: Refactor.
    */
   private async copyFiles(envPath?: string) {
     if (envPath === undefined /*|| ...*/) {
@@ -128,13 +129,28 @@ class ReactInstant extends Command {
       if (this.platform === "win32") {
         const cmdExec = await exec(`xcopy "${envPath}" "${this.dir}" /h`)
         this.verboseLog(cmdExec);
+        try {
+          const cmdTestExec = await exec(`type "${this.dir}\\.env"`)
+          this.verboseLog(cmdTestExec);
+        } catch (err) {
+          throw new Error("Unable to copy .env file. Please make sure the path is correct.");
+        }
 
         // Throw an error if no file is copied.
         if (cmdExec.stdout.includes("0 File(s) copied"))
           throw new Error("Unable to copy .env file. Please make sure the path is correct.");
 
       } else {
-        this.verboseLog(await exec(`cp "${envPath}" "${this.dir}"`));
+        const cmdExec = await exec(`cp "${envPath}" "${this.dir}/.env"`);
+        this.verboseLog(cmdExec);
+        try {
+          const cmdTestExec = await exec(`type "${this.dir}\\.env"`)
+          this.verboseLog(cmdTestExec);
+          if ((cmdExec.stdout.includes("No such file or directory") || cmdExec.stderr.includes("No such file or directory")))
+            throw new Error("Unable to copy .env file. Please make sure the path is correct.");
+        } catch (err) {
+          throw new Error("Unable to copy .env file. Please make sure the path is correct.");
+        }
       }
 
       this.verboseLog(`Copied ${chalk.underline(".env")} file.`)
