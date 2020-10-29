@@ -1,13 +1,13 @@
 import { Command, flags } from "@oclif/command";
+import * as chalk from "chalk";
 import { sync as commandExistsSync } from "command-exists";
+import * as emoji from "node-emoji";
 import * as opn from "open";
+import * as path from "path";
 import * as tempDirectory from "temp-dir";
 import * as urlParse from "url-parse";
 import * as util from "util";
-import * as path from "path";
 import { v1 as uuid } from "uuid";
-import * as chalk from "chalk";
-import * as emoji from "node-emoji";
 
 // tslint:disable-next-line: no-var-requires
 const pjson = require("../package.json");
@@ -18,13 +18,14 @@ class ReactInstant extends Command {
   public static description = "Launches preview of a remote React project.";
 
   public static flags = {
+    branch: flags.string({ char: "b", description: "Specify git branch." }),
+    buildScript: flags.string({ description: "Script name executed on build." }),
+    envPath: flags.string({ description: "Path to .env file." }),
+    omitServe: flags.boolean({ description: "Omits the serving step.", default: false }),
     port: flags.integer({ char: "p", description: "Custom port." }),
     save: flags.string({ char: "s", description: "Provide an url to save the project permanenty." }),
     verbose: flags.boolean(),
     version: flags.version({ char: "v" }),
-    branch: flags.string({ char: "b", description: "Specify git branch." }),
-    buildScript: flags.string({ description: "Script name executed on build." }),
-    envPath: flags.string({ description: "Path to .env file." })
   };
 
   public static args = [{ name: "git_url" }];
@@ -32,7 +33,7 @@ class ReactInstant extends Command {
   private verbose = false;
   private prefersYarn = false;
   private dir = "";
-  private platform = process.platform;
+  private readonly platform = process.platform;
 
   /**
    * Prefered package manager. (yarn or npm)
@@ -55,6 +56,10 @@ class ReactInstant extends Command {
 
     const gitUrl = this.parseUrl(args.git_url);
 
+    // Warn about active --omitServe flag.
+    !!flgs.omitServe && !flgs.save &&
+      this.log(`${emoji.get("warning")} ${chalk.yellow("Command called with --omitServe flag. It has no effect unless you save the project by using --save flag.")}`);
+
     // Resolve the env path.
     flgs.envPath = flgs.envPath ? path.resolve(flgs.envPath || "") : undefined;
 
@@ -63,6 +68,9 @@ class ReactInstant extends Command {
     await this.copyFiles(flgs.envPath);
     await this.installDeps();
     await this.buildRepo(flgs.buildScript ?? "build");
+    if (flgs.omitServe)
+      this.exit(0);
+
     await this.serveRepo(flgs.port || 5000);
   }
 
@@ -197,7 +205,7 @@ class ReactInstant extends Command {
       throw new Error(emoji.get("no_entry") + " No git url provided");
     }
     this.verboseLog(url);
-    // tslint:disable-next-line: strict-type-predicates
+    // tslint:disable-next-line: strict-type-predicates triple-equals
     if(urlParse(url, true).origin != "null") {
       return url;
     }

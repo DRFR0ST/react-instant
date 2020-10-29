@@ -4,6 +4,7 @@ All notable changes to this project will be documented in this file.
 ## [Unreleased]
 ### Added
 - envPath flag for providing an .env file to the project.
+- omitServe flag for skipping the serving process.
 
 ### Changed
 - Command line will now display emojis and colors.

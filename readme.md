@@ -72,6 +72,12 @@ Path to an .env file, that should be copied into the project.
 
 ```react-instant DRFR0ST/circles-web --envPath /some/cool/path/.myEnvFile```
 
+### omitServe
+Mainly used for testing. It skips the serving process and exits after build.
+Is not useful unless used with --save flag.
+
+```react-instant DRFR0ST/physiomedica-website --omitServe```
+
 # Requirements
 The programs listed below are required to run this app correctly.
 
