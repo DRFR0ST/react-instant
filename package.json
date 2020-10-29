@@ -58,7 +58,9 @@
   "scripts": {
     "posttest": "tslint -p test -t stylish",
     "prepack": "rm -rf lib && tsc -b",
-    "test": "nyc --extension .ts mocha --forbid-only \"test/**/*.test.ts\""
+    "build": "yarn prepack",
+    "lint": "yarn posttest",
+    "test": "nyc --extension .ts mocha --inspect --debug-brk --forbid-only \"test/**/*.test.ts\""
   },
   "types": "lib/index.d.ts"
 }
