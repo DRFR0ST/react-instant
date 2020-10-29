@@ -147,7 +147,7 @@ class ReactInstant extends Command {
         try {
           const cmdTestExec = await exec(`test -f "${path.resolve(this.dir + "/.env")}" && echo "ok."`)
           this.verboseLog(cmdTestExec);
-          if ((!cmdExec.stdout.includes("ok.")))
+          if ((!cmdTestExec.stdout.includes("ok.")))
             throw new Error("Unable to copy .env file. Please make sure the path is correct.");
         } catch (err) {
           this.verboseLog(err.message);
