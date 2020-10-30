@@ -65,7 +65,7 @@ Verbose log output.
 ### buildScript 
 Script name executed on build. Default: "build"
 
-```react-instant DRFR0ST/marko-eling-portfolio --buildScript compose```
+```react-instant DRFR0ST/sourcer --buildScript compose```
 
 ### envPath
 Path to an .env file, that should be copied into the project.
