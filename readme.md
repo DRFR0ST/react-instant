@@ -78,6 +78,11 @@ Is not useful unless used with --save flag.
 
 ```react-instant DRFR0ST/physiomedica-website --omitServe```
 
+### forceClean
+Forces clean-up when exiting.
+
+```react-instant DRFR0ST/physiomedica-website --forceClean```
+
 # Requirements
 The programs listed below are required to run this app correctly.
 

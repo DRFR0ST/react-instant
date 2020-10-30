@@ -5,6 +5,7 @@ All notable changes to this project will be documented in this file.
 ### Added
 - envPath flag for providing an .env file to the project.
 - omitServe flag for skipping the serving process.
+- forceClean flag for cleaning the repo at the end.
 
 ### Changed
 - Command line will now display emojis and colors.

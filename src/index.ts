@@ -21,6 +21,7 @@ class ReactInstant extends Command {
     branch: flags.string({ char: "b", description: "Specify git branch." }),
     buildScript: flags.string({ description: "Script name executed on build." }),
     envPath: flags.string({ description: "Path to .env file." }),
+    forceClean: flags.boolean({ description: "Forces clean-up at the very end." }),
     omitServe: flags.boolean({ description: "Omits the serving step.", default: false }),
     port: flags.integer({ char: "p", description: "Custom port." }),
     save: flags.string({ char: "s", description: "Provide an url to save the project permanenty." }),
@@ -62,6 +63,11 @@ class ReactInstant extends Command {
 
     // Resolve the env path.
     flgs.envPath = flgs.envPath ? path.resolve(flgs.envPath || "") : undefined;
+
+    process.on("SIGINT", async () => {
+      if (flgs.forceClean) await this.cleanRepo();
+      process.exit();
+    });
 
     await this.checkDependencies();
     await this.cloneRepo(gitUrl, flgs.branch);
@@ -200,6 +206,21 @@ class ReactInstant extends Command {
     await opn(`http://localhost:${port}/`, { url: true });
 
     this.verboseLog(await exec(`cd ${this.dir} && serve -s build -l ${port}`));
+  }
+
+  private async cleanRepo() {
+    this.log(emoji.get("wastebasket") + " Cleaning up...");
+
+    try {
+      if (this.platform === "win32") {
+        this.verboseLog(await exec(`rmdir "${this.dir}" /s /q`));
+      } else {
+        this.verboseLog(await exec(`rm -rf ${this.dir}`));
+      }
+    } catch (err) {
+      this.verboseLog(err.message);
+      this.log(`${emoji.get("warning")} ${chalk.red(`An error occurred while cleaning repo. Please try doing it manually by deleting the directory (${chalk.underline(this.dir)})`)}`);
+    }
   }
 
   /**
