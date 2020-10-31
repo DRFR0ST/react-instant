@@ -19,13 +19,13 @@ describe('react-instant', () => {
 
   test
     .stdout()
-    .do(async () => await cmd.run(['DRFR0ST/marko-eling-portfolio', "--omitServe", "--buildScript", "compose"]))
+    .do(async () => await cmd.run(['DRFR0ST/sourcer', "--omitServe", "--buildScript", "compose"]))
     .exit(0)
     .it('buildScript flag test exits with success.')
 
   test
     .stdout()
-    .do(async () => await cmd.run(['DRFR0ST/marko-eling-portfolio', "--omitServe"]))
+    .do(async () => await cmd.run(['DRFR0ST/sourcer', "--omitServe", "--buildScript", "glue"]))
     .catch(err => expect(err.message).to.include('Command "build" not found.'))
     .it('buildScript flag test exits with an error.')
 
