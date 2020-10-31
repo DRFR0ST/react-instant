@@ -10,6 +10,9 @@ All notable changes to this project will be documented in this file.
 ### Changed
 - Command line will now display emojis and colors.
 
+### Fixed
+- Path resolving across platforms. (Tested on Windows & Ubuntu)
+
 ## [1.4.0] - 2020-09-14
 ### Added 
 - New build script flag.

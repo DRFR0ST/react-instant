@@ -52,7 +52,7 @@ class ReactInstant extends Command {
 
     this.verbose = flgs.verbose;
 
-    this.dir = flgs.save || `${tempDirectory}/react-instant-${uuid()}`;
+    this.dir = path.resolve(flgs.save || `${tempDirectory}/react-instant-${uuid()}`);
     this.verboseLog(`Path was set to ${this.dir}`);
 
     const gitUrl = this.parseUrl(args.git_url);
