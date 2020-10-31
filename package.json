@@ -1,7 +1,7 @@
 {
   "name": "react-instant",
   "description": "Instantly run a preview of a React application",
-  "version": "1.5.0-beta.9",
+  "version": "1.5.0-beta.10",
   "author": "Mike Eling @DRFR0ST",
   "bin": {
     "react-instant": "./bin/run"
