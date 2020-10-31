@@ -14,7 +14,7 @@ jobs:
       - name: Install package dependencies
         run: yarn install
       - name: Build package
-        run: yarn prepack
+        run: yarn clean:windows && yarn prepack
       - name: Test package
         run: yarn test
   test-ubu:
@@ -30,7 +30,7 @@ jobs:
       - name: Install package dependencies
         run: yarn install
       - name: Build package
-        run: yarn prepack
+        run: yarn build
       - name: Test package
         run: yarn test
       

@@ -57,8 +57,10 @@
   "repository": "DRFR0ST/react-instant",
   "scripts": {
     "posttest": "tslint -p test -t stylish",
-    "prepack": "rm -rf lib && tsc -b",
-    "build": "yarn prepack",
+    "prepack": "tsc -b",
+    "clean": "rm -rf lib",
+    "clean:windows": "rd /s /q lib",
+    "build": "yarn clean && yarn prepack",
     "lint": "yarn posttest",
     "test": "nyc --extension .ts mocha --inspect --debug-brk --forbid-only \"test/**/*.test.ts\""
   },
