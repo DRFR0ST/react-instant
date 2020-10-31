@@ -21,6 +21,7 @@ class ReactInstant extends Command {
     branch: flags.string({ char: "b", description: "Specify git branch." }),
     buildScript: flags.string({ description: "Script name executed on build." }),
     envPath: flags.string({ description: "Path to .env file." }),
+    excludeTest: flags.boolean({ description: "Skip the testing step.", default: false }),
     forceClean: flags.boolean({ description: "Forces clean-up at the very end." }),
     omitServe: flags.boolean({ description: "Omits the serving step.", default: false }),
     port: flags.integer({ char: "p", description: "Custom port." }),
@@ -57,9 +58,16 @@ class ReactInstant extends Command {
 
     const gitUrl = this.parseUrl(args.git_url);
 
+    // TODO: Refactor to own "showWarnings" function.
     // Warn about active --omitServe flag.
     !!flgs.omitServe && !flgs.save &&
-      this.log(`${emoji.get("warning")} ${chalk.yellow("Command called with --omitServe flag. It has no effect unless you save the project by using --save flag.")}`);
+      this.log(`${emoji.get("warning")} ${chalk.yellow("Running command with --omitServe flag. It has no effect unless you save the project by using --save flag.")}`);
+
+    // Warn about active --excludeTest flag.
+    !!flgs.excludeTest &&
+      this.log(`${emoji.get("warning")} ${chalk.yellow('Running command with --excludeTest flag. Testing step will be skipped.')}`);
+
+    this.log(`\n`); // Just a touch of elegancy. :D
 
     // Resolve the env path.
     flgs.envPath = flgs.envPath ? path.resolve(flgs.envPath || "") : undefined;
@@ -73,6 +81,7 @@ class ReactInstant extends Command {
     await this.cloneRepo(gitUrl, flgs.branch);
     await this.copyFiles(flgs.envPath);
     await this.installDeps();
+    if (!flgs.excludeTest) await this.testRepo();
     await this.buildRepo(flgs.buildScript ?? "build");
     if (flgs.omitServe)
       this.exit(0);
@@ -104,9 +113,9 @@ class ReactInstant extends Command {
    * @param url URL to repository.
    */
   private async cloneRepo(url: string, branch?: string) {
-    !this.verbose
-      ? this.log(`${emoji.get('floppy_disk')} Cloning ${chalk.underline(url)}...`)
-      : this.verboseLog(`Cloning ${url} to ${this.dir}...`);
+
+    this.log(`${emoji.get('floppy_disk')} Cloning ${chalk.underline(url)}...`)
+    this.verboseLog(`Cloning ${url} to ${this.dir}...`);
 
     this.verboseLog(await exec(`git clone ${url} ${this.dir}`));
     this.verboseLog(await exec(`cd ${this.dir} && git fetch`));
@@ -185,6 +194,7 @@ class ReactInstant extends Command {
 
   /**
    * Builds project.
+   * @param buildScript Script name for building project. (Defaults to "build")
    */
   private async buildRepo(buildScript: string) {
     this.log(`${emoji.get("building_construction")} Building project...`);
@@ -192,6 +202,23 @@ class ReactInstant extends Command {
     this.verboseLog(
       await exec(`cd ${this.dir} && ${this.constructPMCommand({ yarn: buildScript, npm: `run-script ${buildScript}` })}`)
     );
+  }
+
+  /**
+   * Tests project.
+   */
+  private async testRepo() {
+    this.log(`${emoji.get("white_check_mark")} Testing project...`);
+
+    try {
+      this.verboseLog(
+        await exec(`cd ${this.dir} && ${this.constructPMCommand({ yarn: "test --watchAll=false", npm: `run-script test --watchAll=false` })}`)
+      );
+    } catch (err) {
+      this.verboseLog(err);
+      this.log(`${emoji.get("boom")} A test failed. You can try running the command with a "--excludeTest" flag.`);
+      throw new Error('A test failed. You can try running the command with a "--excludeTest" flag.');
+    }
   }
 
   /**
@@ -219,7 +246,7 @@ class ReactInstant extends Command {
       }
     } catch (err) {
       this.verboseLog(err.message);
-      this.log(`${emoji.get("warning")} ${chalk.red(`An error occurred while cleaning repo. Please try doing it manually by deleting the directory (${chalk.underline(this.dir)})`)}`);
+      this.log(`${emoji.get("boom")} ${chalk.red(`An error occurred while cleaning repo. Please try doing it manually by deleting the directory (${chalk.underline(this.dir)})`)}`);
     }
   }
 

@@ -6,6 +6,8 @@ All notable changes to this project will be documented in this file.
 - envPath flag for providing an .env file to the project.
 - omitServe flag for skipping the serving process.
 - forceClean flag for cleaning the repo at the end.
+- Step that runs tests before build.
+- excludeTest flag to ignore testing.
 
 ### Changed
 - Command line will now display emojis and colors.

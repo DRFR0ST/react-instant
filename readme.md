@@ -64,6 +64,12 @@ Verbose log output.
 
 ```react-instant --verbose```
 
+### excludeTest 
+##### Default: `false`
+Skip the testing step.
+
+```react-instant DRFR0ST/sourcer --excludeTest```
+
 ### buildScript 
 ##### Default: `"build"`
 Script name executed on build.
