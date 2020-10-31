@@ -26,7 +26,7 @@ describe('react-instant', () => {
   test
     .stdout()
     .do(async () => await cmd.run(['DRFR0ST/sourcer', "--omitServe", "--buildScript=glue"]))
-    .catch(err => expect(err.message).to.include('Command "build" not found.'))
+    .catch(err => expect(err.message).to.include('Command "glue" not found.'))
     .it('buildScript flag test exits with an error.')
 
   // test
