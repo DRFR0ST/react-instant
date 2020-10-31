@@ -38,6 +38,7 @@ after the setup you can preview the project in your browser under `http://127.0.
 <!-- usage -->
 # Flags
 ### port (-p)
+##### Default: `5000`
 Override default port.
 
 ```react-instant https://github.com/DRFR0ST/karutek.git -p 5050```
@@ -53,6 +54,7 @@ Save the project permanenty in a local directory.
 ```react-instant Misieq01/notemaster -s ./notemaster/```
 
 ### branch (-b)
+##### Default: `master`
 Switches branch after clone.
 
 ```react-instant Misieq01/notemaster -b=dev```
@@ -63,7 +65,8 @@ Verbose log output.
 ```react-instant --verbose```
 
 ### buildScript 
-Script name executed on build. Default: "build"
+##### Default: `"build"`
+Script name executed on build.
 
 ```react-instant DRFR0ST/sourcer --buildScript compose```
 
@@ -73,12 +76,14 @@ Path to an .env file, that should be copied into the project.
 ```react-instant DRFR0ST/circles-web --envPath /some/cool/path/.myEnvFile```
 
 ### omitServe
+##### Default: `false`
 Mainly used for testing. It skips the serving process and exits after build.
 Is not useful unless used with --save flag.
 
 ```react-instant DRFR0ST/physiomedica-website --omitServe```
 
 ### forceClean
+##### Default: `false`
 Forces clean-up when exiting.
 
 ```react-instant DRFR0ST/physiomedica-website --forceClean```
