@@ -10,4 +10,4 @@ if (dev) {
 }
 
 require(`../${dev ? 'src' : 'lib'}`).run()
-.catch(require('@oclif/errors/handle'))
+  .catch(require('@oclif/errors/handle'))
