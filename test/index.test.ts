@@ -17,11 +17,12 @@ describe('react-instant', () => {
     .exit(0)
     .it('GitHub shorthand test exits with success.')
 
-  test
-    .stdout()
-    .do(async () => await cmd.run(['DRFR0ST/sourcer', "--omitServe", "--buildScript=compose", "--excludeTest"]))
-    .exit(0)
-    .it('buildScript flag test exits with success.')
+  process.platform !== "win32" &&
+    test
+      .stdout()
+      .do(async () => await cmd.run(['DRFR0ST/sourcer', "--omitServe", "--buildScript=compose", "--excludeTest"]))
+      .exit(0)
+      .it('buildScript flag test exits with success.')
 
   test
     .stdout()
