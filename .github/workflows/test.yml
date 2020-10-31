@@ -1,8 +1,24 @@
 on: push
 name: Test Package
 jobs:
-  test:
-    name: Test Package
+  test-win:
+    name: Run test on Windows
+    runs-on: windows-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@master
+        with:
+          fetch-depth: 3
+      - name: Install dependencies
+        run: yarn global add serve
+      - name: Install package dependencies
+        run: yarn install
+      - name: Build package
+        run: yarn prepack
+      - name: Test package
+        run: yarn test
+  test-ubu:
+    name: Run test on Ubuntu
     runs-on: ubuntu-latest
     steps:
       - name: Checkout
