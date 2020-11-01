@@ -37,6 +37,8 @@ class ReactInstant extends Command {
   private dir = "";
   private readonly platform = process.platform;
 
+  private readonly missingDeps: string[] = []; // Allows using fallback to npx.
+
   /**
    * Prefered package manager. (yarn or npm)
    */
@@ -102,9 +104,9 @@ class ReactInstant extends Command {
     if (!commandExistsSync("git")) {
       throw new Error("'git' is not installed.");
     }
-    // Check for serve
+
     if (!commandExistsSync("serve")) {
-      throw new Error("'serve' is not installed. Try npm install -g serve")
+      this.missingDeps.push("serve");
     }
   }
 
@@ -227,12 +229,21 @@ class ReactInstant extends Command {
    */
   private async serveRepo(port: number) {
     this.log(emoji.get("rocket") + " Serving project on port " + chalk.underline(port) + "...\n");
-    this.log(`Now you can preview this project under ${chalk.underline(`http://localhost:${port}/`)}`);
 
     // tslint:disable-next-line: no-http-string
     await opn(`http://localhost:${port}/`, { url: true });
+    const npxPrefix = this.missingDeps.includes("serve") ? "npx " : "";
+    const cmd = `${npxPrefix} serve -s build -l ${port}`;
 
-    this.verboseLog(await exec(`cd ${this.dir} && serve -s build -l ${port}`));
+    try {
+      this.log(`Now you can preview this project under ${chalk.underline(`http://localhost:${port}/`)}`);
+      this.verboseLog(await exec(`cd ${this.dir} && ${cmd}`));
+    } catch (err) {
+      this.verboseLog(err);
+      this.log(`${emoji.get("boom")} ${chalk.red("An error occurred while serving the project. Make sure the 'serve' is installed and the build directory is named 'build'.")}`);
+      process.exit(1);
+    }
+
   }
 
   private async cleanRepo() {
