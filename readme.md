@@ -2,6 +2,8 @@ react-instant
 =============
  Instantly run a React application on your local device.
 
+![header image](https://i.imgur.com/44sW5W4.png)
+
 [![Version](https://img.shields.io/npm/v/react-instant.svg?style=for-the-badge)](https://npmjs.org/package/react-instant)
 [![Downloads/week](https://img.shields.io/npm/dw/react-instant.svg?style=for-the-badge)](https://npmjs.org/package/react-instant)
 [![License](https://img.shields.io/npm/l/react-instant.svg?style=for-the-badge)](https://github.com/DRFR0ST/react-instant/blob/master/package.json)
